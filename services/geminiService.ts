@@ -1,7 +1,16 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { Job, ResumeAnalysis } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY as string });
+let ai: GoogleGenAI | undefined;
+try {
+    const apiKey = process.env.API_KEY;
+    if (!apiKey) {
+        throw new Error("API_KEY environment variable not set.");
+    }
+    ai = new GoogleGenAI({ apiKey });
+} catch (error) {
+    console.error("Failed to initialize GoogleGenAI:", error);
+}
 
 const analysisSchema = {
     type: Type.OBJECT,
@@ -34,6 +43,10 @@ const analysisSchema = {
 };
 
 export const analyzeResume = async (resumeContent: string, job: Job): Promise<ResumeAnalysis | null> => {
+    if (!ai) {
+        console.error("GoogleGenAI client is not initialized. Check if the API_KEY is set correctly.");
+        return null;
+    }
     try {
         const prompt = `
             Analyze the following resume for the position of "${job.title}".

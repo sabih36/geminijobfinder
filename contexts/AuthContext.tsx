@@ -51,8 +51,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, signup }}>
-      {children}
-    </AuthContext.Provider>
+    React.createElement(AuthContext.Provider, { value: { user, login, logout, signup } },
+      children
+    )
   );
 };

@@ -12,25 +12,25 @@ const App: React.FC = () => {
 
   const renderPage = () => {
     if (!user) {
-      return <Auth />;
+      return React.createElement(Auth, null);
     }
     switch (currentPage) {
       case Page.JobListings:
-        return <JobListings />;
+        return React.createElement(JobListings, null);
       case Page.RecruiterDashboard:
-        return <RecruiterDashboard />;
+        return React.createElement(RecruiterDashboard, null);
       default:
-        return <JobListings />;
+        return React.createElement(JobListings, null);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <main className="container mx-auto p-4 md:p-8">
-        {renderPage()}
-      </main>
-    </div>
+    React.createElement('div', { className: "min-h-screen bg-background" },
+      React.createElement(Header, { currentPage: currentPage, setCurrentPage: setCurrentPage }),
+      React.createElement('main', { className: "container mx-auto p-4 md:p-8" },
+        renderPage()
+      )
+    )
   );
 };
 

@@ -14,50 +14,50 @@ const ScoreBadge: React.FC<{ score: number }> = ({ score }) => {
         return 'bg-red-100 text-red-800';
     };
     return (
-        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getColor()}`}>
-            {score.toFixed(1)} / 10
-        </span>
+        React.createElement('span', { className: `px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getColor()}` },
+            score.toFixed(1), " / 10"
+        )
     );
 };
 
 const AnalysisDetails: React.FC<{ analysis: ResumeAnalysis }> = ({ analysis }) => (
-    <div className="space-y-6">
-        <div>
-            <h4 className="font-semibold text-gray-800">AI Fit Score</h4>
-            <div className="mt-2 flex items-center gap-x-2">
-                <ScoreBadge score={analysis.fitScore} />
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div className="bg-primary h-2.5 rounded-full" style={{ width: `${analysis.fitScore * 10}%` }}></div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <h4 className="font-semibold text-gray-800">Summary</h4>
-            <p className="mt-1 text-gray-600 text-sm">{analysis.summary}</p>
-        </div>
-        <div>
-            <h4 className="font-semibold text-gray-800">Key Skills</h4>
-            <div className="mt-2 flex flex-wrap gap-2">
-                {analysis.skills.map((skill, i) => (
-                    <span key={i} className="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{skill}</span>
-                ))}
-            </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <h4 className="font-semibold text-green-700">Pros</h4>
-                <ul className="mt-1 list-disc list-inside text-gray-600 text-sm space-y-1">
-                    {analysis.pros.map((pro, i) => <li key={i}>{pro}</li>)}
-                </ul>
-            </div>
-            <div>
-                <h4 className="font-semibold text-red-700">Cons</h4>
-                <ul className="mt-1 list-disc list-inside text-gray-600 text-sm space-y-1">
-                    {analysis.cons.map((con, i) => <li key={i}>{con}</li>)}
-                </ul>
-            </div>
-        </div>
-    </div>
+    React.createElement('div', { className: "space-y-6" },
+        React.createElement('div', null,
+            React.createElement('h4', { className: "font-semibold text-gray-800" }, "AI Fit Score"),
+            React.createElement('div', { className: "mt-2 flex items-center gap-x-2" },
+                React.createElement(ScoreBadge, { score: analysis.fitScore }),
+                React.createElement('div', { className: "w-full bg-gray-200 rounded-full h-2.5" },
+                    React.createElement('div', { className: "bg-primary h-2.5 rounded-full", style: { width: `${analysis.fitScore * 10}%` } })
+                )
+            )
+        ),
+        React.createElement('div', null,
+            React.createElement('h4', { className: "font-semibold text-gray-800" }, "Summary"),
+            React.createElement('p', { className: "mt-1 text-gray-600 text-sm" }, analysis.summary)
+        ),
+        React.createElement('div', null,
+            React.createElement('h4', { className: "font-semibold text-gray-800" }, "Key Skills"),
+            React.createElement('div', { className: "mt-2 flex flex-wrap gap-2" },
+                analysis.skills.map((skill, i) => (
+                    React.createElement('span', { key: i, className: "bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full" }, skill)
+                ))
+            )
+        ),
+        React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 gap-4" },
+            React.createElement('div', null,
+                React.createElement('h4', { className: "font-semibold text-green-700" }, "Pros"),
+                React.createElement('ul', { className: "mt-1 list-disc list-inside text-gray-600 text-sm space-y-1" },
+                    analysis.pros.map((pro, i) => React.createElement('li', { key: i }, pro))
+                )
+            ),
+            React.createElement('div', null,
+                React.createElement('h4', { className: "font-semibold text-red-700" }, "Cons"),
+                React.createElement('ul', { className: "mt-1 list-disc list-inside text-gray-600 text-sm space-y-1" },
+                    analysis.cons.map((con, i) => React.createElement('li', { key: i }, con))
+                )
+            )
+        )
+    )
 );
 
 const RecruiterDashboard: React.FC = () => {
@@ -114,63 +114,66 @@ const RecruiterDashboard: React.FC = () => {
     };
     
     if (loading) {
-        return <Spinner />;
+        return React.createElement(Spinner, null);
     }
 
     if(user?.role !== 'recruiter') {
-        return <div className="text-center text-muted">This page is for recruiters only.</div>
+        return React.createElement('div', { className: "text-center text-muted" }, "This page is for recruiters only.");
     }
 
     return (
-        <div>
-            <h1 className="text-3xl font-bold mb-6 text-text">Recruiter Dashboard</h1>
-            <div className="bg-card rounded-lg shadow-sm overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applicant</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Position</th>
-                            <th scope="col" className="relative px-6 py-3"><span className="sr-only">View</span></th>
-                        </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                        {applications.length === 0 && (
-                            <tr><td colSpan={3} className="text-center py-10 text-muted">No applications found.</td></tr>
-                        )}
-                        {applications.map(app => (
-                            <tr key={app.id} className="hover:bg-gray-50">
-                                <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm font-medium text-gray-900">{app.userName}</div>
-                                    <div className="text-sm text-gray-500">{app.userEmail}</div>
-                                </td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{getJobById(app.jobId)?.title}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <Button onClick={() => handleViewDetails(app)} variant="outline">View Details</Button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-
-            <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} title="Application Details">
-                {selectedApp && (
-                    <div className="space-y-4">
-                        <div>
-                            <h3 className="text-lg font-bold">{selectedApp.userName}</h3>
-                            <p className="text-sm text-muted">{selectedApp.userEmail}</p>
-                            <p className="text-sm text-muted">Applying for: {getJobById(selectedApp.jobId)?.title}</p>
-                        </div>
-                        <div className="p-4 bg-gray-50 rounded-lg">
-                            <h4 className="font-semibold text-gray-800 mb-2">AI Resume Analysis</h4>
-                            {isAnalyzing && <Spinner />}
-                            {!isAnalyzing && analysis && <AnalysisDetails analysis={analysis} />}
-                            {!isAnalyzing && !analysis && <p className="text-sm text-red-500">Could not analyze resume.</p>}
-                        </div>
-                    </div>
-                )}
-            </Modal>
-        </div>
+        React.createElement('div', null,
+            React.createElement('h1', { className: "text-3xl font-bold mb-6 text-text" }, "Recruiter Dashboard"),
+            React.createElement('div', { className: "bg-card rounded-lg shadow-sm overflow-hidden" },
+                React.createElement('table', { className: "min-w-full divide-y divide-gray-200" },
+                    React.createElement('thead', { className: "bg-gray-50" },
+                        React.createElement('tr', null,
+                            React.createElement('th', { scope: "col", className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" }, "Applicant"),
+                            React.createElement('th', { scope: "col", className: "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" }, "Position"),
+                            React.createElement('th', { scope: "col", className: "relative px-6 py-3" }, React.createElement('span', { className: "sr-only" }, "View"))
+                        )
+                    ),
+                    React.createElement('tbody', { className: "bg-white divide-y divide-gray-200" },
+                        applications.length === 0 && (
+                            React.createElement('tr', null, React.createElement('td', { colSpan: 3, className: "text-center py-10 text-muted" }, "No applications found."))
+                        ),
+                        applications.map(app => (
+                            React.createElement('tr', { key: app.id, className: "hover:bg-gray-50" },
+                                React.createElement('td', { className: "px-6 py-4 whitespace-nowrap" },
+                                    React.createElement('div', { className: "text-sm font-medium text-gray-900" }, app.userName),
+                                    React.createElement('div', { className: "text-sm text-gray-500" }, app.userEmail)
+                                ),
+                                React.createElement('td', { className: "px-6 py-4 whitespace-nowrap text-sm text-gray-500" }, getJobById(app.jobId)?.title),
+                                React.createElement('td', { className: "px-6 py-4 whitespace-nowrap text-right text-sm font-medium" },
+                                    React.createElement(Button, { onClick: () => handleViewDetails(app), variant: "outline" }, "View Details")
+                                )
+                            )
+                        ))
+                    )
+                )
+            ),
+            // Fix: Moved children into props object to satisfy Modal's required children prop type.
+            React.createElement(Modal, {
+                isOpen: isModalOpen,
+                onClose: () => setModalOpen(false),
+                title: "Application Details",
+                children: selectedApp && (
+                    React.createElement('div', { className: "space-y-4" },
+                        React.createElement('div', null,
+                            React.createElement('h3', { className: "text-lg font-bold" }, selectedApp.userName),
+                            React.createElement('p', { className: "text-sm text-muted" }, selectedApp.userEmail),
+                            React.createElement('p', { className: "text-sm text-muted" }, "Applying for: ", getJobById(selectedApp.jobId)?.title)
+                        ),
+                        React.createElement('div', { className: "p-4 bg-gray-50 rounded-lg" },
+                            React.createElement('h4', { className: "font-semibold text-gray-800 mb-2" }, "AI Resume Analysis"),
+                            isAnalyzing && React.createElement(Spinner, null),
+                            !isAnalyzing && analysis && React.createElement(AnalysisDetails, { analysis: analysis }),
+                            !isAnalyzing && !analysis && React.createElement('p', { className: "text-sm text-red-500" }, "Could not analyze resume.")
+                        )
+                    )
+                )
+            })
+        )
     );
 };
 

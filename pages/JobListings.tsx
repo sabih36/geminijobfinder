@@ -8,20 +8,20 @@ import Spinner from '../components/Spinner';
 
 const JobCard: React.FC<{ job: Job; company?: Company; onApply: (job: Job) => void }> = ({ job, company, onApply }) => {
     return (
-        <div className="bg-card p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
-            <div className="flex items-start mb-4">
-                <img src={company?.logoUrl} alt={`${company?.name} logo`} className="w-12 h-12 rounded-full mr-4" />
-                <div>
-                    <h3 className="text-lg font-bold text-text">{job.title}</h3>
-                    <p className="text-sm text-muted">{company?.name}</p>
-                </div>
-            </div>
-            <p className="text-gray-600 text-sm mb-4 flex-grow">{job.description.substring(0, 120)}...</p>
-            <div className="flex justify-between items-center mt-auto">
-                <span className="text-xs font-semibold bg-primary/10 text-primary py-1 px-3 rounded-full">{job.category}</span>
-                <Button onClick={() => onApply(job)}>Apply Now</Button>
-            </div>
-        </div>
+        React.createElement('div', { className: "bg-card p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col" },
+            React.createElement('div', { className: "flex items-start mb-4" },
+                React.createElement('img', { src: company?.logoUrl, alt: `${company?.name} logo`, className: "w-12 h-12 rounded-full mr-4" }),
+                React.createElement('div', null,
+                    React.createElement('h3', { className: "text-lg font-bold text-text" }, job.title),
+                    React.createElement('p', { className: "text-sm text-muted" }, company?.name)
+                )
+            ),
+            React.createElement('p', { className: "text-gray-600 text-sm mb-4 flex-grow" }, job.description.substring(0, 120), "..."),
+            React.createElement('div', { className: "flex justify-between items-center mt-auto" },
+                React.createElement('span', { className: "text-xs font-semibold bg-primary/10 text-primary py-1 px-3 rounded-full" }, job.category),
+                React.createElement(Button, { onClick: () => onApply(job) }, "Apply Now")
+            )
+        )
     );
 }
 
@@ -94,61 +94,62 @@ const JobListings: React.FC = () => {
     const getCompanyById = (id: string) => companies.find(c => c.id === id);
 
     return (
-        <div>
-            <div className="bg-card p-6 rounded-lg shadow-sm mb-8">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <input
-                        type="text"
-                        placeholder="Search for jobs..."
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <select
-                        className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                    >
-                        {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
-                    </select>
-                </div>
-            </div>
-
-            {loading ? (
-                <Spinner />
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {filteredJobs.map(job => (
-                        <JobCard
-                            key={job.id}
-                            job={job}
-                            company={getCompanyById(job.companyId)}
-                            onApply={handleApplyClick}
-                        />
-                    ))}
-                </div>
-            )}
-
-            <Modal isOpen={isApplyModalOpen} onClose={() => setApplyModalOpen(false)} title={`Apply for ${selectedJob?.title}`}>
-                <div>
-                    <p className="mb-4 text-muted">Upload your resume to apply. Supported format: .txt</p>
-                    <div className="mb-6">
-                        <label htmlFor="resume-upload" className="block text-sm font-medium text-gray-700 mb-2">Resume</label>
-                        <input
-                            id="resume-upload"
-                            type="file"
-                            accept=".txt"
-                            onChange={handleFileChange}
-                            className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
-                        />
-                    </div>
-                    <div className="flex justify-end space-x-3">
-                        <Button variant="outline" onClick={() => setApplyModalOpen(false)}>Cancel</Button>
-                        <Button onClick={handleSubmitApplication} isLoading={isSubmitting} disabled={!resumeFile}>Submit Application</Button>
-                    </div>
-                </div>
-            </Modal>
-        </div>
+        React.createElement('div', null,
+            React.createElement('div', { className: "bg-card p-6 rounded-lg shadow-sm mb-8" },
+                React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-3 gap-4" },
+                    // Fix: Cast props to 'any' to bypass incorrect type error on the 'className' attribute.
+                    React.createElement('input', {
+                        type: "text",
+                        placeholder: "Search for jobs...",
+                        className: "w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary",
+                        value: searchTerm,
+                        onChange: (e) => setSearchTerm(e.target.value)
+                    } as any),
+                    React.createElement('select', {
+                        className: "w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary",
+                        value: selectedCategory,
+                        onChange: (e) => setSelectedCategory(e.target.value)
+                    },
+                        categories.map(cat => React.createElement('option', { key: cat, value: cat }, cat))
+                    )
+                )
+            ),
+            loading ? React.createElement(Spinner, null) : (
+                React.createElement('div', { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" },
+                    filteredJobs.map(job => (
+                        React.createElement(JobCard, {
+                            key: job.id,
+                            job: job,
+                            company: getCompanyById(job.companyId),
+                            onApply: handleApplyClick
+                        })
+                    ))
+                )
+            ),
+            // Fix: Moved children into props object to satisfy Modal's required children prop type.
+            React.createElement(Modal, {
+                isOpen: isApplyModalOpen,
+                onClose: () => setApplyModalOpen(false),
+                title: `Apply for ${selectedJob?.title}`,
+                children: React.createElement('div', null,
+                    React.createElement('p', { className: "mb-4 text-muted" }, "Upload your resume to apply. Supported format: .txt"),
+                    React.createElement('div', { className: "mb-6" },
+                        React.createElement('label', { htmlFor: "resume-upload", className: "block text-sm font-medium text-gray-700 mb-2" }, "Resume"),
+                        React.createElement('input', {
+                            id: "resume-upload",
+                            type: "file",
+                            accept: ".txt",
+                            onChange: handleFileChange,
+                            className: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                        })
+                    ),
+                    React.createElement('div', { className: "flex justify-end space-x-3" },
+                        React.createElement(Button, { variant: "outline", onClick: () => setApplyModalOpen(false) }, "Cancel"),
+                        React.createElement(Button, { onClick: handleSubmitApplication, isLoading: isSubmitting, disabled: !resumeFile }, "Submit Application")
+                    )
+                )
+            })
+        )
     );
 };
 
