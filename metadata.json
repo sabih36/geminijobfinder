@@ -1,0 +1,5 @@
+{
+  "name": "Gemini Job Board",
+  "description": "An online job board where companies can post jobs and students can apply with their resumes. Features an AI-powered resume analyzer to help recruiters.",
+  "requestFramePermissions": []
+}
