@@ -19,7 +19,7 @@ const JobCard: React.FC<{ job: Job; company?: Company; onApply: (job: Job) => vo
             <p className="text-gray-600 text-sm mb-4 flex-grow">{job.description.substring(0, 120)}...</p>
             <div className="flex justify-between items-center mt-auto">
                 <span className="text-xs font-semibold bg-primary/10 text-primary py-1 px-3 rounded-full">{job.category}</span>
-                <Button onClick={() => onApply(job)} size-sm>Apply Now</Button>
+                <Button onClick={() => onApply(job)}>Apply Now</Button>
             </div>
         </div>
     );

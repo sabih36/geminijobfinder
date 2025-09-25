@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import Button from '../components/Button';
-import { BriefcaseIcon } from '../constants';
+import { BriefcaseIcon } from '../components/Icons';
 
 type AuthMode = 'signin' | 'signup';
 

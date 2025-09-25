@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { BriefcaseIcon, UserGroupIcon } from '../constants';
+import { BriefcaseIcon, UserGroupIcon } from './Icons';
 import { Page } from '../types';
 
 interface HeaderProps {
